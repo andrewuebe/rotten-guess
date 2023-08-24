@@ -1,14 +1,13 @@
-import Image from 'next/image'
-import { useEffect } from 'react'
-import WebSocketTest from './components/WebSocketTest'
-import JoinLobby from './components/JoinLobby';
+import AppLayout from '../components/client/layout/AppLayout';
+import Lobby from '../components/client/lobby/Lobby';
 
 export default function Home() {
 
   return (
     <main>
-      <JoinLobby />
-      {/* <WebSocketTest /> */}
+      <AppLayout>
+        <Lobby />
+      </AppLayout>
     </main>
   )
 }

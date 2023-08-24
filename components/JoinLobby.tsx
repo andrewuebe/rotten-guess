@@ -1,20 +1,10 @@
 'use client'
 import { useState } from 'react';
 import { createLobby, joinLobbyByToken } from '../utilities/services/lobbyService';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../app/contexts/AuthContext';
 
 export default function JoinLobby() {
   const { lobbyInfo, setAuthToken, setLobbyInfo } = useAuth();
-
-  const handleCreateLobby = async () => {
-    console.log('lets create the lobby!');
-    const createLobbyResponse = await createLobby();
-    if (createLobbyResponse) {
-      const { lobby, token } = createLobbyResponse.data;
-      setAuthToken(token);
-      setLobbyInfo(lobby);
-    }
-  }
 
   if (lobbyInfo) {
     return (

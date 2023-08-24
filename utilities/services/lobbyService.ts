@@ -27,7 +27,6 @@ export const getLobbyByToken = async (code: string) => {
 export const joinLobbyByToken = async (lobbyToken: string, playerName?: string) => {
   try {
     const response = await lobbyService.post('/lobby/join', { lobbyToken, playerName: playerName ?? null });
-
     return response.data;
   } catch (error) {
     console.log(error);

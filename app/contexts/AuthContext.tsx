@@ -1,21 +1,17 @@
 'use client';
 import { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
-import { JwtToken } from '../utilities/constants/APIConstants';
-import { getLobby } from '../utilities/services/lobbyService';
-import { Lobby } from '../utilities/types/Lobby';
+import { JwtToken } from '../../utilities/constants/APIConstants';
 
 interface AuthContextType {
   authToken: string | null;
-  setAuthToken: (value: string | null) => void;
-  lobbyInfo: Lobby | null;
-  setLobbyInfo: (value: Lobby | null) => void;
+  saveAuthToken: (value: string | null) => void;
+  isAuthLoading: boolean;
 }
 
 const initialAuthContext: AuthContextType = {
   authToken: null,
-  setAuthToken: () => { },
-  lobbyInfo: null,
-  setLobbyInfo: () => { }
+  saveAuthToken: () => { },
+  isAuthLoading: true
 }
 
 const AuthContext = createContext<AuthContextType>(initialAuthContext);
@@ -29,36 +25,31 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const hasFetchedLobby = useRef(false);
   const [authToken, setAuthToken] = useState<string | null>(null);
-  const [lobbyInfo, setLobbyInfo] = useState<Lobby | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
 
-  const getLobbyFromServer = async () => {
-    const lobbyResponse = await getLobby();
-    if (lobbyResponse?.data) {
-      setLobbyInfo(lobbyResponse.data.lobby);
-      hasFetchedLobby.current = true;
+  const saveAuthToken = (value: string | null) => {
+    if (!value) localStorage.setItem(JwtToken.LOCAL_STORAGE_KEY, '')
+    if (value) {
+      console.log(value);
+      localStorage.setItem(JwtToken.LOCAL_STORAGE_KEY, value);
     }
+    setAuthToken(value);
+
   }
-
-  useEffect(() => {
-    if (authToken && !hasFetchedLobby.current && !lobbyInfo) {
-      getLobbyFromServer();
-    }
-  }, [authToken]);
 
   useEffect(() => {
     const token = localStorage.getItem(JwtToken.LOCAL_STORAGE_KEY);
     if (token) {
       setAuthToken(token);
     }
+    setIsAuthLoading(false);
   }, []);
 
   const value = {
     authToken,
-    setAuthToken,
-    lobbyInfo,
-    setLobbyInfo
+    saveAuthToken,
+    isAuthLoading
   };
 
   return (
