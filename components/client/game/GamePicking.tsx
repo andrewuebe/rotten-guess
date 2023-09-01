@@ -1,21 +1,28 @@
 import { GamePlayer } from "@/utilities/types/Game"
 import { Player } from "@/utilities/types/Player";
+import MoviePicker from "../pickers/MoviePicker";
+import { useGame } from "@/utilities/hooks/useGame";
 
 interface GamePickingProps {
   pickerPlayer: GamePlayer;
-  userPlayer: Player;
+  userPlayer: Player | undefined;
 }
 
 export default function GamePicking({ pickerPlayer, userPlayer }: GamePickingProps) {
-  console.log('pickerPlayer: ', pickerPlayer);
-  console.log('userPlayer: ', userPlayer);
-  const isUserPickerPlayer = userPlayer.name === pickerPlayer.name
+  const isUserPickerPlayer = userPlayer?.name === pickerPlayer.name
+  const { roundEndPicking } = useGame();
+
+  const handleMoviePick = (movie: any) => {
+    if (isUserPickerPlayer) {
+      roundEndPicking({ movie_id: movie._id });
+    }
+  }
 
   if (isUserPickerPlayer) {
     // This user is the picker
     return (
       <div>
-        PICKING!!!
+        <MoviePicker onPick={handleMoviePick} />
       </div>
     )
   }

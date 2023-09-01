@@ -27,10 +27,36 @@ const useSocketLogic = (): UseSocketReturn => {
         queryClient.setQueryData(ReactQueryKeys.GAME, ({
           ...data
         }));
-        queryClient.setQueryData(ReactQueryKeys.LOBBY, (oldLobbyData: Lobby) => ({
+        queryClient.setQueryData(ReactQueryKeys.LOBBY, (oldLobbyData: any) => ({
           ...oldLobbyData,
           is_in_game: true,
         }))
+      })
+
+      socket.on('picking-end', (data) => {
+        queryClient.setQueryData(ReactQueryKeys.GAME, (oldGame: any) => {
+          console.log('data', data);
+          const newRounds = [...oldGame.rounds];
+          newRounds[oldGame.current_round - 1] = data.updatedRound;
+
+          return {
+            ...oldGame,
+            rounds: newRounds
+          };
+        });
+      })
+
+      socket.on('guessing-end', (data) => {
+        queryClient.setQueryData(ReactQueryKeys.GAME, (oldGame: any) => {
+          console.log('data', data);
+          const newRounds = [...oldGame.rounds];
+          newRounds[oldGame.current_round - 1] = data.updatedRound;
+
+          return {
+            ...oldGame,
+            rounds: newRounds
+          };
+        });
       })
 
       // Add other listeners here

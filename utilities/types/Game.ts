@@ -1,9 +1,16 @@
 import { APIResponse } from "../constants/APIConstants";
 
+export interface Pick {
+  movie_id?: string;
+  rt_score?: number;
+  timed_out?: boolean;
+}
+
 export interface Guess {
-  player_id: string;
+  player_id?: string;
   name: string;
   guess: string;
+  points?: number;
 };
 
 export enum GameStatus {
@@ -33,11 +40,12 @@ interface EndTimes {
   [RoundStatus.SCORES]: Date | null;
 }
 
-interface Round {
+export interface Round {
   round_number: number;
   round_type: RoundType;
   round_status: RoundStatus;
   picker_player: GamePlayer;
+  pick: Pick;
   guesses: Guess[] | [];
   end_times: EndTimes;
 };
@@ -57,3 +65,9 @@ export interface Game {
 export interface GetGameResponse extends APIResponse {
   data: Game;
 };
+
+export interface UpdatedRoundResponse extends APIResponse {
+  data: {
+    updatedRound: Round;
+  }
+}

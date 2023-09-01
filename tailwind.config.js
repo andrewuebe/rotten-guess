@@ -7,12 +7,22 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        'bagelfat': ['"Bagel Fat One"', 'sans-serif'],
+        'montserrat': ['"Montserrat Alternates"', 'sans-serif'],
+      },
+      fontSize: {
+        'xs': '.75rem',
+        'sm': '.875rem',
+        'base': '1rem',
+        'lg': '1.125rem',
+        'xl': '1.5rem',  // Overriding the default 'xl' size
+        '2xl': '2rem',   // Overriding the default '2xl' size
+        '3xl': '2.5rem', // Adding new size for '3xl'
+        // ... add or override more sizes as needed
       },
     },
   },
   plugins: [],
 }
+
