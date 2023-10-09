@@ -25,14 +25,8 @@ export const getMovieDetails = async (movieTitle: string, movieYear: string) => 
   try {
     const movieQueryNoSpaces = movieTitle.replace(/\s/g, '%20');
     const movieDBSearchResponse = await theMovieDbService.get(`/search/movie?query=${movieQueryNoSpaces}&year=${movieYear}&include_adult=false&language=en-US&page=1`);
-    const movieMatch = movieDBSearchResponse.data.results.find((movie: any) => {
-      if (
-        movie.title.toLowerCase() === movieTitle.toLowerCase() &&
-        movie.release_date.substring(0, 4) === movieYear
-      ) {
-        return true
-      }
-    });
+    const movieMatch = movieDBSearchResponse.data.results[0];
+    console.log(movieMatch);
     return {
       backdropPath: movieMatch.backdrop_path ?? null,
       overview: movieMatch.overview ?? null

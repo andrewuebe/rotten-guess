@@ -19,6 +19,8 @@ module.exports = {
         'xl': '1.5rem',  // Overriding the default 'xl' size
         '2xl': '2rem',   // Overriding the default '2xl' size
         '3xl': '2.5rem', // Adding new size for '3xl'
+        '4xl': '3rem',   // Adding new size for '4xl'
+        '5xl': '4rem',   // Adding new size for '5xl'
         // ... add or override more sizes as needed
       },
     },

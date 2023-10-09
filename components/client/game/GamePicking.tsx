@@ -2,6 +2,7 @@ import { GamePlayer } from "@/utilities/types/Game"
 import { Player } from "@/utilities/types/Player";
 import MoviePicker from "../pickers/MoviePicker";
 import { useGame } from "@/utilities/hooks/useGame";
+import GameRoundHeader from "./GameRoundHeader";
 
 interface GamePickingProps {
   pickerPlayer: GamePlayer;
@@ -21,8 +22,14 @@ export default function GamePicking({ pickerPlayer, userPlayer }: GamePickingPro
   if (isUserPickerPlayer) {
     // This user is the picker
     return (
-      <div>
-        <MoviePicker onPick={handleMoviePick} />
+
+      <div className="w-full h-screen">
+        <div className="bg-rose-600 h-full">
+          <div className="mb-4">
+            <GameRoundHeader title="Pick a movie" />
+          </div>
+          <MoviePicker onPick={handleMoviePick} />
+        </div>
       </div>
     )
   }

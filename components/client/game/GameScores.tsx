@@ -2,7 +2,9 @@ import { ReactQueryKeys } from "@/utilities/constants/ReactQuery";
 import { getMovieById } from "@/utilities/services/movieService";
 import { PlayerScore, Round, RoundType, } from "@/utilities/types/Game";
 import { useQuery, useQueries } from "@tanstack/react-query";
-import GameRoundTitle from "./GameRoundTitle";
+import GameRoundHeader from "./GameRoundHeader";
+import GameScoresMovieReveal from "./GameScoresMovieReveal";
+import GameScoresTable from "./GameScoresTable";
 
 interface GameScoresProps {
   currentRound: Round;
@@ -40,30 +42,24 @@ export default function GameScores({ currentRound, playerScores }: GameScoresPro
   return (
     <div className="w-full">
       <div className="bg-rose-600">
-        <GameRoundTitle title="Scores" />
-        <div className="mb-3 text-center">
-          <div className="text-lg font-bold">
-            {pickedMovieData.data.movie.title}
-          </div>
-          has a rotten tomatoes score of...
-          <div className="text-3xl font-bold">
-            {pickedMovieData.data.movie.rt_score}
-          </div>
-        </div>
+        <GameRoundHeader title="Scores" />
+        <GameScoresMovieReveal title={pickedMovieData.data.movie.title} rt_score={pickedMovieData.data.movie.rt_score} rt_url={pickedMovieData.data.movie.url} />
       </div>
-      <div>
+      <div className="max-w-[750px] m-auto p-4">
+        <GameScoresTable
+          columnOne="Player"
+          columnTwo="Guess"
+          columnThree="Points"
+        />
         {sortedRoundPoints.map((guess, index) => {
           return (
-            <div
-              key={guess.player_id}
-              className="rounded-md border border-slate-100 p-3 mt-2"
-            >
-              {guess.name} guessed
-              <div
-                className="flex"
-              >
-              </div>
-            </div>
+            <GameScoresTable
+              key={`${guess.player_id}-${index + 1}`}
+              columnOne={guess.name}
+              columnTwo={guess.guess}
+              columnThree={Math.round(guess.points)?.toString() ?? 'N/A'}
+              color="bg-rose-200"
+            />
           )
         })}
       </div>

@@ -8,6 +8,8 @@ import { useMemo, useState } from "react";
 import { useGame } from "@/utilities/hooks/useGame";
 import MovieDetails from "../movie/MovieDetails";
 import ScorePicker from "../pickers/ScorePicker";
+import GameRoundHeader from "./GameRoundHeader";
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 interface GameGuessingProps {
   currentRound: Round;
@@ -24,6 +26,8 @@ export default function GameGuessing({ currentRound, pickerPlayer, userPlayer, p
   });
 
   const { roundEndGuessing } = useGame();
+
+  const [parent] = useAutoAnimate();
 
   const [selectedMovie, setSelectedMovie] = useState<any>(null)
 
@@ -66,29 +70,45 @@ export default function GameGuessing({ currentRound, pickerPlayer, userPlayer, p
     )
   }
 
-  if (selectedMovie) {
-    return (
-      <div>
-        <MovieDetails
-          selectedMovie={selectedMovie}
-          closeButton={removeSelectedMovie}
-        />
-      </div>
-    )
-  }
-
   return (
     <div>
-      <h2>Guess the movie’s Rotten Tomatoes score</h2>
-      <div className="p-4 mt-6 mb-4 bg-slate-100">
-        <h4 className="">
-          {isUserPickerPlayer ? 'You picked' : `${pickerPlayer.name} picked`}
-        </h4>
-        <MovieOption movie={pickedMovieData?.data.movie} handleMovieOptionClick={handleMovieOptionClick} />
-      </div>
       <div>
-        <h5 className="uppercase font-light text-xs mb-2">What percentage of {pickedMovieData.data.movie.title}’s reviews are positive?</h5>
-        <ScorePicker onScoreSelect={handleScoreSelect} />
+        <h2>Guess the movie’s Rotten Tomatoes score</h2>
+        <div className="p-4 mt-6 mb-4 bg-slate-100">
+          <h4 className="">
+            {isUserPickerPlayer ? 'You picked' : `${pickerPlayer.name} picked`}
+          </h4>
+          <MovieOption movie={pickedMovieData?.data.movie} handleMovieOptionClick={handleMovieOptionClick} />
+        </div>
+        <div>
+          <h5 className="uppercase font-light text-xs mb-2">What percentage of {pickedMovieData.data.movie.title}’s reviews are positive?</h5>
+          <ScorePicker onScoreSelect={handleScoreSelect} />
+        </div>
+      </div>
+      <div className="w-full h-screen">
+        <div className="bg-rose-600 h-full">
+          <div className="mb-4">
+            <GameRoundHeader title="Guess" subTitle={`Now that ${isUserPickerPlayer ? 'you picked' : `${pickerPlayer.name} picked`} the movie ${pickedMovieData?.data?.movie?.title}, guess what its rotten tomatoes score is!`} />
+          </div>
+          <div className="max-w-[750px] m-auto px-2">
+            <div className="rounded-md bg-rose-100 shadow" ref={parent}>
+              {selectedMovie && (
+                <MovieDetails
+                  selectedMovie={selectedMovie}
+                  closeButton={removeSelectedMovie}
+                />
+              )}
+              {!selectedMovie && (
+                <div className="p-4">
+                  <h4 className="font-montserrat p-2">
+                    {isUserPickerPlayer ? 'You picked' : `${pickerPlayer.name} picked`}
+                  </h4>
+                  <MovieOption movie={pickedMovieData?.data.movie} handleMovieOptionClick={handleMovieOptionClick} />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ type TextInputProps = {
   onChange: (value: string) => void,
   placeholder?: string,
   type?: 'text' | 'password' | 'email' | 'number',
+  variant?: 'primary' | 'secondary' | 'transparent',
   className?: string,
 }
 
@@ -13,6 +14,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   onChange,
   placeholder = '',
   type = 'text',
+  variant = 'primary',
   className = ''
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +36,12 @@ export const TextInput: React.FC<TextInputProps> = ({
     onChange(returnValue);
   };
 
+  const variantClassMap = {
+    primary: 'py-2 px-3 text-gray-700',
+    secondary: 'py-2 px-3 text-gray-700',
+    transparent: 'py-2 px-3 bg-transparent',
+  }
+
   return (
     <input
       value={value}
@@ -42,7 +50,7 @@ export const TextInput: React.FC<TextInputProps> = ({
       type={type}
       min={type === 'number' ? 0 : undefined}
       max={type === 'number' ? 100 : undefined}
-      className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${className}`}
+      className={`appearance-none w-full ${variantClassMap[variant]} focus:outline-none focus:shadow-outline ${className}`}
     />
   );
 };

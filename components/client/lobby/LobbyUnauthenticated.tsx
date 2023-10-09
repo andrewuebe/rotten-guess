@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ReactQueryKeys } from "@/utilities/constants/ReactQuery";
 import TextInput from "../inputs/TextInput";
 import { useLobby } from "@/utilities/hooks/useLobby";
+import GameRoundHeader from "../game/GameRoundHeader";
 
 export default function LobbyUnauthenticated() {
   const { saveAuthToken } = useAuth();
@@ -45,7 +46,7 @@ export default function LobbyUnauthenticated() {
 
   return (
     <div>
-      <h1>Rotten Guess</h1>
+      <GameRoundHeader title="Rotten Guess" />
       <div className="flex flex-row justify-center w-full space-x-2">
         <Button onClick={handleCreateLobby} color="primary" size="medium">
           Start Lobby
