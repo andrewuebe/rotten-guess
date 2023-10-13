@@ -35,8 +35,12 @@ export default function GamePicking({ pickerPlayer, userPlayer }: GamePickingPro
   }
   // This user will guess once the picker is done picking
   return (
-    <div>
-      WAITING FOR {pickerPlayer.name} TO PICK
+    <div className="w-full h-screen">
+      <div className="bg-rose-600 h-full">
+        <div className="mb-4">
+          <GameRoundHeader title="Waiting..." subTitle={`You’re waiting for ${pickerPlayer.name} to pick, when they're done it will be your turn to guess!`} />
+        </div>
+      </div>
     </div>
   )
 }

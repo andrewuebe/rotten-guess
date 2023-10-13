@@ -9,8 +9,9 @@ export interface Pick {
 export interface Guess {
   player_id?: string;
   name: string;
-  guess: string;
+  guess?: string;
   points?: number;
+  timed_out?: boolean;
 };
 
 export enum GameStatus {

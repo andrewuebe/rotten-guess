@@ -33,7 +33,7 @@ export const endPicking = async (pick: Pick) => {
 
 export const endGuessing = async (guess: Guess) => {
   try {
-    const response = await gameService.post('/game/round/guessing-end', { guess: guess });
+    const response = await gameService.post('/game/round/guessing-submit', { guess });
     return response.data;
   } catch (error) {
     console.log(error);

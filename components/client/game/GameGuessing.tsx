@@ -64,27 +64,18 @@ export default function GameGuessing({ currentRound, pickerPlayer, userPlayer, p
 
   if (hasUserGuessed) {
     return (
-      <div>
-        Thanks for guessing!
+      <div className="w-full h-screen">
+        <div className="bg-rose-600 h-full">
+          <div className="mb-4">
+            <GameRoundHeader title="Waiting..." subTitle={`Thanks for guessing, now you wait for everyone else to submit their guess.`} />
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
     <div>
-      <div>
-        <h2>Guess the movie’s Rotten Tomatoes score</h2>
-        <div className="p-4 mt-6 mb-4 bg-slate-100">
-          <h4 className="">
-            {isUserPickerPlayer ? 'You picked' : `${pickerPlayer.name} picked`}
-          </h4>
-          <MovieOption movie={pickedMovieData?.data.movie} handleMovieOptionClick={handleMovieOptionClick} />
-        </div>
-        <div>
-          <h5 className="uppercase font-light text-xs mb-2">What percentage of {pickedMovieData.data.movie.title}’s reviews are positive?</h5>
-          <ScorePicker onScoreSelect={handleScoreSelect} />
-        </div>
-      </div>
       <div className="w-full h-screen">
         <div className="bg-rose-600 h-full">
           <div className="mb-4">
@@ -106,6 +97,10 @@ export default function GameGuessing({ currentRound, pickerPlayer, userPlayer, p
                   <MovieOption movie={pickedMovieData?.data.movie} handleMovieOptionClick={handleMovieOptionClick} />
                 </div>
               )}
+            </div>
+            <div className="mt-4">
+              <h5 className="uppercase font-light text-xs mb-2 text-slate-50">What percentage of {pickedMovieData.data.movie.title}’s reviews are positive?</h5>
+              <ScorePicker onScoreSelect={handleScoreSelect} />
             </div>
           </div>
         </div>

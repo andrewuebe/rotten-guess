@@ -5,9 +5,9 @@ interface GameRoundHeaderProps {
 
 export default function GameRoundHeader({ title, subTitle }: GameRoundHeaderProps) {
   return (
-    <div className="w-full flex items-center flex-col text-slate-50">
+    <div className="w-full flex items-center flex-col text-slate-50 p-3">
       <div className="w-max">
-        <span className="font-bagelfat uppercase text-3xl">
+        <span className="font-bagelfat uppercase text-3xl break-words">
           {title}
         </span>
       </div>

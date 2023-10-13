@@ -10,10 +10,11 @@ export default function GameScoresMovieReveal({ title, rt_score, rt_url }: { tit
           </span>
           {' '} reviews that are positive:
         </div>
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center flex-col">
           <div className="text-5xl font-montserrat font-bold text-rose-600">
             {rt_score}%
           </div>
+          <div className="-mt-4 text-xs">On the tomato meter</div>
         </div>
       </div>
     </div>

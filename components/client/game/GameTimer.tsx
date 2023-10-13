@@ -20,6 +20,9 @@ export default function GameTimer({ date, onTimeUp }: GameTimerProps) {
   const timeUpCalled = useRef(false); // useRef to keep track
 
   useEffect(() => {
+    // Resetting timeUpCalled whenever targetDate changes
+    timeUpCalled.current = false;
+
     const intervalId = setInterval(() => {
       const newTimeRemaining = calculateTimeRemaining(targetDate);
       setTimeRemaining(newTimeRemaining);
@@ -32,7 +35,7 @@ export default function GameTimer({ date, onTimeUp }: GameTimerProps) {
 
     // Cleanup
     return () => clearInterval(intervalId);
-  }, [targetDate]); // Removed onTimeUp from dependencies
+  }, [targetDate, onTimeUp]);
 
   return (
     <div>
