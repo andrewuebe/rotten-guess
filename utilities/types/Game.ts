@@ -70,5 +70,6 @@ export interface GetGameResponse extends APIResponse {
 export interface UpdatedRoundResponse extends APIResponse {
   data: {
     updatedRound: Round;
+    game: Game;
   }
 }

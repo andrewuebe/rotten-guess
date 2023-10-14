@@ -11,6 +11,7 @@ interface UseGameReturn extends QueryObserverBaseResult {
   start: () => Promise<Game | null>;
   roundEndPicking: (pick: Pick) => Promise<void>;
   roundEndGuessing: (guess: Guess) => Promise<void>;
+  roundEndScores: () => void;
   data: Game;
 }
 
@@ -67,17 +68,13 @@ export function useGame(): UseGameReturn {
   const roundEndGuessing = async (guess: Guess) => {
     const roundEndGuessingResponse: UpdatedRoundResponse = await endGuessing(guess);
     if (roundEndGuessingResponse) {
-      const updatedRound = roundEndGuessingResponse.data.updatedRound;
-      queryClient.setQueryData(ReactQueryKeys.GAME, (oldGame: any) => {
-        const newRounds = [...oldGame.rounds];
-        newRounds[oldGame.current_round - 1] = updatedRound;
-
-        return {
-          ...oldGame,
-          rounds: newRounds
-        };
-      });
+      const updatedGame = roundEndGuessingResponse.data.game;
+      queryClient.setQueryData(ReactQueryKeys.GAME, updatedGame);
     }
+  };
+
+  const roundEndScores = () => {
+    console.log('haha');
   };
 
   return {
@@ -85,6 +82,7 @@ export function useGame(): UseGameReturn {
     data: game.data as Game,
     start,
     roundEndPicking,
-    roundEndGuessing
+    roundEndGuessing,
+    roundEndScores,
   }
 }

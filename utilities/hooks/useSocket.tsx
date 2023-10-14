@@ -59,6 +59,14 @@ const useSocketLogic = (): UseSocketReturn => {
         });
       })
 
+      socket.on('start-next-round', (data) => {
+        console.log("Received start-next-round event:", data);
+        queryClient.setQueryData(ReactQueryKeys.GAME, (oldGame: any) => ({
+          ...oldGame,
+          current_round: oldGame.current_round + 1,
+        }));
+      })
+
       // Add other listeners here
     }
     // The function returned by useEffect runs when the component unmounts, 

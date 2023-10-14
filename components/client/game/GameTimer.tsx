@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 interface GameTimerProps {
   date: string | Date | null | undefined;
@@ -37,9 +37,22 @@ export default function GameTimer({ date, onTimeUp }: GameTimerProps) {
     return () => clearInterval(intervalId);
   }, [targetDate, onTimeUp]);
 
+  const timerColorSize = useMemo(() => {
+    if (timeRemaining > 12) {
+      return 'bg-rose-100 scale-100';
+    }
+    if (timeRemaining > 8) {
+      return 'bg-rose-50 scale-120';
+    }
+    return 'bg-yellow-100 scale-125';
+  }, [timeRemaining]);
+
   return (
     <div>
-      {timeRemaining > 0 ? timeRemaining : "Time's up!"}
+      <div className={`absolute rounded-full w-[50px] h-[50px] bg-yellow-100 scale-125 animate-ping ${timeRemaining <= 5 ? 'block' : 'hidden'}`}></div>
+      <div className={`rounded-full shadow-md shadow-rose-800 w-[50px] h-[50px] flex flex-col items-center justify-center transition-all font-bold ${timerColorSize}`}>
+        {timeRemaining > 0 ? timeRemaining : "!"}
+      </div>
     </div>
   );
 }

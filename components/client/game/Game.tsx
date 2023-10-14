@@ -1,7 +1,7 @@
 import { ReactQueryKeys } from "@/utilities/constants/ReactQuery";
 import { Game, GameStatus, RoundStatus } from "@/utilities/types/Game";
 import { useQueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import GamePicking from "./GamePicking";
 import GameGuessing from "./GameGuessing";
 import GameScores from "./GameScores";
@@ -20,7 +20,7 @@ export default function Game() {
     return game.data.rounds[game.data.current_round - 1];
   }, [game.data]);
 
-  const handleTimerEnd = async () => {
+  const handleTimerEnd = useCallback(async () => {
     console.log('timer ended');
     console.log('currentRoundData', currentRoundData);
     if (currentRoundData?.round_status === RoundStatus.PICKING) {
@@ -29,7 +29,7 @@ export default function Game() {
     if (currentRoundData?.round_status === RoundStatus.GUESSING) {
       game.roundEndGuessing({ player_id: playerData?.id, name: playerData?.name as string, timed_out: true });
     }
-  }
+  }, [currentRoundData, playerData?.id, playerData?.name])
 
   const roundStatusComponent = useMemo(() => {
     console.log(currentRoundData);
@@ -64,10 +64,16 @@ export default function Game() {
 
   return (
     <div>
-      <GameTimer
-        date={currentRoundData?.end_times[currentRoundData?.round_status]}
-        onTimeUp={handleTimerEnd}
-      />
+      <div className="bg-rose-600">
+        <div className="max-w-[750px] m-auto px-4 pt-4 h-[48px]">
+          <div className="fixed">
+            <GameTimer
+              date={currentRoundData?.end_times[currentRoundData?.round_status]}
+              onTimeUp={handleTimerEnd}
+            />
+          </div>
+        </div>
+      </div>
       {roundStatusComponent}
     </div>
   )
