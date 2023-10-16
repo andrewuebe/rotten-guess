@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryObserverBaseResult } from "@tanstack/query-core/src/types"
 import { getLobby, joinLobbyByToken, createLobby } from "../services/lobbyService";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { ReactQueryKeys } from "../constants/ReactQuery";
 import { GetLobbyResponse, JoinCreateLobbyResponse, Lobby } from "../types/Lobby";
 import { Player } from "../types/Player";
+import { useEffect, useState } from "react";
 
 interface UseLobbyReturn extends QueryObserverBaseResult {
   join: (lobbyToken: string, playerName?: string) => Promise<Lobby | null>;
@@ -29,9 +30,11 @@ export function useLobby(): UseLobbyReturn {
         queryClient.setQueryData(ReactQueryKeys.PLAYER, getLobbyResponse.data.player);
         return getLobbyResponse.data.lobby;
       }
+      saveAuthToken(null);
     },
     {
-      enabled: !!authToken
+      enabled: !!authToken,
+      retry: false
     }
   );
 
@@ -84,7 +87,6 @@ export function useLobby(): UseLobbyReturn {
       })
     }
   }
-
 
   return {
     ...lobby,

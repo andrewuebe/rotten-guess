@@ -9,6 +9,7 @@ import Button from "../buttons/Button";
 import { useState } from "react";
 import GameLeaderboard from "./GameLeaderboard";
 import GameLeaderboardTable from "./GameLeaderboardTable";
+import { colorScoreMap } from "@/utilities/helpers/gameHelper";
 
 interface GameScoresProps {
   currentRound: Round;
@@ -43,21 +44,6 @@ export default function GameScores({ currentRound, playerScores }: GameScoresPro
     return bScore - aScore;
   });
 
-  const pointScoreColorMap = (points: number) => {
-    if (points < 25) {
-      return 'bg-rose-200';
-    }
-    if (points < 50) {
-      return 'bg-orange-200';
-    }
-    if (points < 75) {
-      return 'bg-yellow-200';
-    }
-    if (points >= 90) {
-      return 'bg-green-200';
-    }
-  }
-
   if (!pickedMovieData) {
     return (
       <div>
@@ -79,6 +65,11 @@ export default function GameScores({ currentRound, playerScores }: GameScoresPro
               columnTwo="Points"
             />
             <GameLeaderboard playerScores={sortedPlayerScores} />
+            <div className="mt-4 text-right">
+              <Button color="secondary" onClick={() => setShowLeaderBoard(false)}>
+                Round scores
+              </Button>
+            </div>
           </div>
         </>
       )}
@@ -99,9 +90,9 @@ export default function GameScores({ currentRound, playerScores }: GameScoresPro
                 <GameScoresTable
                   key={`${guess.player_id}-${index + 1}`}
                   columnOne={(guess.name === pickerPlayer.name ? `${guess.name}*` : guess.name) as string}
-                  columnTwo={guess.guess}
+                  columnTwo={guess.guess as string}
                   columnThree={Math.round(guess.points as number)?.toString() ?? 'N/A'}
-                  color={pointScoreColorMap(guess.points as number)}
+                  color={colorScoreMap(guess.points as number)}
                 />
               )
             })}

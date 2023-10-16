@@ -54,7 +54,7 @@ class ApiService {
       if (currentToken && error.response.status === 401) {
         localStorage.removeItem(JwtToken.LOCAL_STORAGE_KEY);
       }
-      return Promise.reject(new Error(error));
+      throw error;
     };
 
     this.instance.interceptors.request.use(
@@ -81,7 +81,7 @@ class ApiService {
       const response = await this.instance.get(endpoint, { ...params, ...headers });
       return response;
     } catch (error: any) {
-      return Promise.reject(new Error(error));
+      throw error;
     }
   };
 
@@ -90,7 +90,7 @@ class ApiService {
       const response = await this.instance.post(endpoint, data, customHeaders);
       return response;
     } catch (error: any) {
-      return Promise.reject(new Error(error));
+      throw error;
     }
   };
 
@@ -99,7 +99,7 @@ class ApiService {
       const response = await this.instance.put(endpoint, data);
       return response;
     } catch (error: any) {
-      return Promise.reject(new Error(error));
+      throw error;
     }
   };
 
@@ -108,7 +108,7 @@ class ApiService {
       const response = await this.instance.patch(endpoint, data);
       return response;
     } catch (error: any) {
-      return Promise.reject(new Error(error));
+      throw error;
     }
   };
 
@@ -117,7 +117,7 @@ class ApiService {
       const response = await this.instance.delete(endpoint);
       return response;
     } catch (error: any) {
-      return Promise.reject(new Error(error));
+      throw error;
     }
   };
 }
