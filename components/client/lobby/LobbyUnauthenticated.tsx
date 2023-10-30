@@ -8,6 +8,7 @@ import TextInput from "../inputs/TextInput";
 import { useLobby } from "@/utilities/hooks/useLobby";
 import GameRoundHeader from "../game/GameRoundHeader";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import LobbyTopBar from "./LobbyTopBar";
 
 export default function LobbyUnauthenticated() {
   const { saveAuthToken } = useAuth();
@@ -53,7 +54,7 @@ export default function LobbyUnauthenticated() {
                   type="text"
                 />
               </div>
-              <Button onClick={(e) => handleJoinLobby(e)} type="submit" color="primary" size="medium">
+              <Button onClick={(e) => handleJoinLobby(e)} type="submit" color="vine" size="medium">
                 Join Lobby
               </Button>
               {lobbyJoinError && (
@@ -69,21 +70,22 @@ export default function LobbyUnauthenticated() {
   }
 
   return (
-    <div className="bg-rose-600 h-screen">
-      <GameRoundHeader title="Rotten Guess" />
-      <div className="mt-6 max-w-[750px] m-auto px-2">
-        <div className="rounded-md bg-rose-100 shadow p-4">
-          <h3 className="mb-4 text-ce">
-            Test your knowledge of Rotten Tomatoes scores with your friends!
-          </h3>
-          <div className="flex flex-row justify-center w-full space-x-2">
-            <Button onClick={handleCreateLobby} color="primary" size="medium">
-              Start Lobby
-            </Button>
-            <Button onClick={() => setIsJoiningLobby(true)} color="primary" size="medium">
-              Join Lobby
-            </Button>
-          </div>
+    <div className="bg-corn-soup-100 h-screen">
+      <LobbyTopBar />
+      <div className="container pt-4 sm:pt-8">
+        <h1 className="mt-4 pb-4 text-eggplant-800 font-rokkitt font-black text-5xl sm:text-6xl leading-[50px] sm:leading-[65px] max-w-[75%] sm:max-w-[450px]">
+          Is your movie knowledge rotten, or not?
+        </h1>
+        <p className="text-eggplant-800 text-lg">
+          Rotten Guess is a game where you and your friends guess the Rotten Tomatoes score of a movie. The closer you are to the actual score, the more points you get!
+        </p>
+        <div className="space-y-4 w-full block xs:space-y-0 xs:flex xs:flex-row xs:justify-left xs:space-x-2 mt-6">
+          <Button onClick={() => setIsJoiningLobby(true)} style="secondary" size="large" className="w-full xs:w-max">
+            Join Lobby
+          </Button>
+          <Button onClick={handleCreateLobby} style="primary" size="large" className="w-full xs:w-max">
+            Start Lobby
+          </Button>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { config } from '../config';
 
 export const getApiUrl = () => {
   return config.protocol + config.baseUrls.api;
+  // return 'http://auebe:3000'
 }
 
 export const insertInObjectIf = (condition: boolean, keyValues: Object) => {

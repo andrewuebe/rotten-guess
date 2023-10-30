@@ -6,7 +6,7 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
-    <div className="font-montserrat font-light ">
+    <div className="font-montserrat font-light pt-[54px] font-ubuntu">
       {children}
     </div>
   );
