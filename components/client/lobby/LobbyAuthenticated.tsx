@@ -68,28 +68,5 @@ export default function LobbyAuthenticated() {
         </div>
       </div>
     </div>
-  )
-
-  return (
-    <div className="bg-rose-600 h-screen text-center">
-      <GameRoundHeader title="In Lobby" subTitle="Once everyone who wants to play has joined the game, the lobby host can start the game!" />
-      <div className="max-w-[750px] m-auto px-2">
-        <div className="rounded-md bg-rose-100 shadow p-4">
-          <div className="text-xl mb-2">
-            Join token: <span className="font-mono">{lobbyData.lobby_token}</span>
-          </div>
-          <div className="mb-2">You are: "{playerData?.name}"</div>
-          <h4 className="font-bold">Players:</h4>
-          <PlayerList />
-          {isLobbyHost && (
-            <div className="mt-4">
-              <Button onClick={async () => {
-                await game.start();
-              }}>Start game</Button>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  )
+  );
 }
