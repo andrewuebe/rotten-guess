@@ -39,18 +39,18 @@ export default function GameTimer({ date, onTimeUp }: GameTimerProps) {
 
   const timerColorSize = useMemo(() => {
     if (timeRemaining > 12) {
-      return 'bg-rose-100 scale-100';
+      return 'bg-pumpkin-400 scale-100';
     }
     if (timeRemaining > 8) {
-      return 'bg-rose-50 scale-120';
+      return 'bg-tomato-soup-200 scale-120';
     }
-    return 'bg-yellow-100 scale-125';
+    return 'bg-tomato-soup-300 scale-125';
   }, [timeRemaining]);
 
   return (
     <div>
-      <div className={`absolute rounded-full w-[50px] h-[50px] bg-yellow-100 scale-125 animate-ping ${timeRemaining <= 5 ? 'block' : 'hidden'}`}></div>
-      <div className={`rounded-full shadow-md shadow-rose-800 w-[50px] h-[50px] flex flex-col items-center justify-center transition-all font-bold ${timerColorSize}`}>
+      <div className={`absolute rounded-full w-[36px] h-[36px] bg-tomato-soup-300 scale-125 animate-ping ${timeRemaining <= 5 ? 'block' : 'hidden'}`}></div>
+      <div className={`rounded-full border-2 border-eggplant-800 w-[36px] h-[36px] flex flex-col items-center justify-center transition-all font-bold ${timerColorSize}`}>
         {timeRemaining > 0 ? timeRemaining : "!"}
       </div>
     </div>

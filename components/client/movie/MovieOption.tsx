@@ -5,7 +5,7 @@ export default function MovieOption({ movie, handleMovieOptionClick }: { movie: 
     <button
       type="button"
       key={`${movie.title}-${movie.year}`}
-      className='appearance-none m-0 mb-2 px-2 py-3 min-h-0 min-w-0 text-left w-full hover:bg-rose-200 focus:bg-rose-200 focus:outline-none focus:shadow-outline cursor-pointer rounded-md'
+      className='appearance-none m-0 mb-2 px-2 py-3 min-h-0 min-w-0 text-left w-full hover:bg-corn-soup-400 focus:bg-corn-soup-400 focus:outline-none focus:shadow-outline cursor-pointer rounded-md'
       onClick={() => {
         if (handleMovieOptionClick) {
           handleMovieOptionClick(movie)

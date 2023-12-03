@@ -41,31 +41,34 @@ export default function LobbyUnauthenticated() {
 
   if (isJoiningLobby) {
     return (
-      <div className="bg-rose-600 h-screen">
-        <GameRoundHeader title="Enter token" />
-        <div className="mt-6 max-w-[750px] m-auto px-2">
-          <div className="rounded-md bg-rose-100 shadow p-4">
-            <form onSubmit={(e) => handleJoinLobby(e)}>
-              <div className="mb-4">
-                <TextInput
-                  value={lobbyTokenInput}
-                  onChange={handleInputChange}
-                  placeholder="Lobby token"
-                  type="text"
-                />
-              </div>
-              <Button onClick={(e) => handleJoinLobby(e)} type="submit" color="vine" size="medium">
-                Join Lobby
-              </Button>
-              {lobbyJoinError && (
-                <div className="flex flex-start items-center text-rose-800 mt-2">
-                  <span className="mr-2"><ExclamationTriangleIcon /></span>{lobbyJoinError}
-                </div>
-              )}
-            </form>
+      <div className="bg-corn-soup-100 h-screen">
+        <LobbyTopBar />
+        <div className="container pt-4 sm:pt-8">
+          <div className="mt-4">
+            <h1 className="pb-4 text-eggplant-800 font-rokkitt font-black text-5xl sm:text-6xl leading-[50px] sm:leading-[65px] max-w-[75%] sm:max-w-[450px]">
+              Enter a lobby token
+            </h1>
           </div>
+          <form onSubmit={(e) => handleJoinLobby(e)}>
+            <div className="mb-4">
+              <TextInput
+                value={lobbyTokenInput}
+                onChange={handleInputChange}
+                placeholder="Lobby token"
+                type="text"
+              />
+            </div>
+            <Button onClick={(e) => handleJoinLobby(e)} type="submit" color="vine" size="medium">
+              Join Lobby
+            </Button>
+            {lobbyJoinError && (
+              <div className="flex flex-start items-center text-rose-800 mt-2">
+                <span className="mr-2"><ExclamationTriangleIcon /></span>{lobbyJoinError}
+              </div>
+            )}
+          </form>
         </div>
-      </div >
+      </div>
     )
   }
 
@@ -73,9 +76,14 @@ export default function LobbyUnauthenticated() {
     <div className="bg-corn-soup-100 h-screen">
       <LobbyTopBar />
       <div className="container pt-4 sm:pt-8">
-        <h1 className="mt-4 pb-4 text-eggplant-800 font-rokkitt font-black text-5xl sm:text-6xl leading-[50px] sm:leading-[65px] max-w-[75%] sm:max-w-[450px]">
-          Is your movie knowledge rotten, or not?
-        </h1>
+        <div className="flex flex-start items-center pb-4 mb-6">
+          <h1 className="mt-4 flex-shrink pb-4 w-max text-eggplant-800 font-rokkitt font-black text-2xl leading-[36px] xs:text-4xl sm:text-6xl xs:leading-[50px] sm:leading-[65px] max-w-[75%] sm:max-w-[450px]">
+            Is your movie knowledge rotten, or not?
+          </h1>
+          <div className="w-full max-w-[210px] flex-grow">
+            <img src="homepage-lad.svg" />
+          </div>
+        </div>
         <p className="text-eggplant-800 text-lg">
           Rotten Guess is a game where you and your friends guess the Rotten Tomatoes score of a movie. The closer you are to the actual score, the more points you get!
         </p>

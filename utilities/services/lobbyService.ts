@@ -8,7 +8,6 @@ const lobbyService = new ApiService({ baseUrl: getApiUrl() });
 export const getLobby = async () => {
   try {
     const response = await lobbyService.get('/lobby');
-    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -35,9 +34,7 @@ export const joinLobbyByToken = async (lobbyToken: string, playerName?: string) 
 
 export const createLobby = async (data?: any) => {
   try {
-    console.log('we are here in create lobby');
     const response = await lobbyService.post('/lobby', data);
-    console.log(response);
     if (response.data.state === APIResponseStates.SUCCESS) {
       localStorage.setItem(JwtToken.LOCAL_STORAGE_KEY, response.data.data.token);
       return response.data;
@@ -46,3 +43,26 @@ export const createLobby = async (data?: any) => {
     console.log(error);
   }
 };
+
+export const leaveLobby = async () => {
+  try {
+    const response = await lobbyService.post('/lobby/leave');
+    if (response.data.state === APIResponseStates.SUCCESS) {
+      localStorage.removeItem(JwtToken.LOCAL_STORAGE_KEY);
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const changePlayerName = async (newName: string) => {
+  try {
+    const response = await lobbyService.post('lobby/change-name', { newName })
+    if (response.data.state === APIResponseStates.SUCCESS) {
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

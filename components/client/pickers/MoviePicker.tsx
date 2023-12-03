@@ -68,13 +68,13 @@ export default function MoviePicker({ onPick }: MoviePickerProps) {
   }, [parent])
 
   return (
-    <div className="max-w-[750px] m-auto px-2">
-      <div className="rounded-md bg-rose-100 shadow" ref={parent}>
+    <div>
+      <div className="rounded-md bg-corn-soup-200 shadow" ref={parent}>
         {!selectedMovie && (
           <>
-            <div className={`flex justify-start items-center border-b-rose-200 p-4 ${movieResults.length > 0 ? 'border-b-2' : 'border-b-0'}`}>
+            <div className={`flex justify-start items-center border-b-corn-soup-400 p-4 ${movieResults.length > 0 ? 'border-b-2' : 'border-b-0'}`}>
               {/* input area */}
-              <div className="text-rose-400 mr-2">
+              <div className="text-corn-soup-500 mr-2">
                 <MagnifyingGlassIcon width="35" height="35" />
               </div>
               <TextInput
@@ -83,7 +83,7 @@ export default function MoviePicker({ onPick }: MoviePickerProps) {
                 placeholder="Movie name..."
                 type="text"
                 variant="transparent"
-                className="text-rose-900 placeholder:text-rose-400"
+                className="text-corn-soup-900 placeholder:text-corn-soup-500"
               />
             </div>
             {movieResults.length > 0 && (

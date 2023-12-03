@@ -53,6 +53,7 @@ export interface Round {
 
 export interface PlayerScore extends GamePlayer {
   score: number;
+
 };
 
 export interface Game {
@@ -65,6 +66,7 @@ export interface Game {
 
 export interface GetGameResponse extends APIResponse {
   data: Game;
+  rounds_as_picker: number;
 };
 
 export interface UpdatedRoundResponse extends APIResponse {

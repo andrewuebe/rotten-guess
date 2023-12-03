@@ -8,8 +8,9 @@ import { useMemo, useState } from "react";
 import { useGame } from "@/utilities/hooks/useGame";
 import MovieDetails from "../movie/MovieDetails";
 import ScorePicker from "../pickers/ScorePicker";
-import GameRoundHeader from "./GameRoundHeader";
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import PlayerColorCircle from "../players/PlayerColorCircle";
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+
 
 interface GameGuessingProps {
   currentRound: Round;
@@ -25,7 +26,7 @@ export default function GameGuessing({ currentRound, pickerPlayer, userPlayer, p
     enabled: (roundType === RoundType.GUESS_SCORE && !!pick.movie_id)
   });
 
-  const { roundEndGuessing } = useGame();
+  const { roundEndGuessing, data } = useGame();
 
   const [parent] = useAutoAnimate();
 
@@ -64,46 +65,47 @@ export default function GameGuessing({ currentRound, pickerPlayer, userPlayer, p
 
   if (hasUserGuessed) {
     return (
-      <div className="w-full h-screen">
-        <div className="bg-rose-600 h-full">
-          <div className="mb-4">
-            <GameRoundHeader title="Waiting..." subTitle={`Thanks for guessing, now you wait for everyone else to submit their guess.`} />
-          </div>
-        </div>
+      <div>
+        <div className="">Round {data.current_round}</div>
+        <h1 className="pb-4 text-eggplant-800 font-rokkitt font-black text-5xl sm:text-6xl leading-[50px] sm:leading-[65px] max-w-[75%] sm:max-w-[450px]">
+          Waiting...
+        </h1>
+        <p className="mt-6">
+          Thanks for guessing, now you wait for everyone else to submit their guess.
+        </p>
       </div>
     )
   }
 
   return (
     <div>
-      <div className="w-full h-screen">
-        <div className="bg-rose-600 h-full">
-          <div className="mb-4">
-            <GameRoundHeader title="Guess" subTitle={`Now that ${isUserPickerPlayer ? 'you picked' : `${pickerPlayer.name} picked`} the movie ${pickedMovieData?.data?.movie?.title}, guess what its rotten tomatoes score is!`} />
+      <div className="">Round {data.current_round}</div>
+      <h1 className="pb-4 text-eggplant-800 font-rokkitt font-black text-5xl sm:text-6xl leading-[50px] sm:leading-[65px] max-w-[75%] sm:max-w-[450px]">
+        Guess
+      </h1>
+      <p className="pb-6">
+        Now that {isUserPickerPlayer ? 'you picked' : `${pickerPlayer.name} picked`} the movie {pickedMovieData?.data?.movie?.title}, guess what its rotten tomatoes score is!
+      </p>
+      <div className="flex justify-start mb-2 space-x-1 items-center">
+        <PlayerColorCircle playerArray={data.player_scores} playerName={pickerPlayer?.name as string} isCurrentPlayer={isUserPickerPlayer} />
+        <span>picked:</span>
+      </div>
+      <div className="rounded-md bg-corn-soup-200 shadow" ref={parent}>
+        {selectedMovie && (
+          <MovieDetails
+            selectedMovie={selectedMovie}
+            closeButton={removeSelectedMovie}
+          />
+        )}
+        {!selectedMovie && (
+          <div className="p-4">
+            <MovieOption movie={pickedMovieData?.data.movie} handleMovieOptionClick={handleMovieOptionClick} />
           </div>
-          <div className="max-w-[750px] m-auto px-2">
-            <div className="rounded-md bg-rose-100 shadow" ref={parent}>
-              {selectedMovie && (
-                <MovieDetails
-                  selectedMovie={selectedMovie}
-                  closeButton={removeSelectedMovie}
-                />
-              )}
-              {!selectedMovie && (
-                <div className="p-4">
-                  <h4 className="font-montserrat p-2">
-                    {isUserPickerPlayer ? 'You picked' : `${pickerPlayer.name} picked`}
-                  </h4>
-                  <MovieOption movie={pickedMovieData?.data.movie} handleMovieOptionClick={handleMovieOptionClick} />
-                </div>
-              )}
-            </div>
-            <div className="mt-4">
-              <h5 className="uppercase font-light text-xs mb-2 text-slate-50">What percentage of {pickedMovieData.data.movie.title}’s reviews are positive?</h5>
-              <ScorePicker onScoreSelect={handleScoreSelect} />
-            </div>
-          </div>
-        </div>
+        )}
+      </div>
+      <div className="mt-4">
+        <h5 className="uppercase font-light text-xs mb-2 text-slate-50">What percentage of {pickedMovieData.data.movie.title}’s reviews are positive?</h5>
+        <ScorePicker onScoreSelect={handleScoreSelect} />
       </div>
     </div>
   )

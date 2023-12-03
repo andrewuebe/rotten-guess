@@ -1,24 +1,22 @@
 import { useQueryClient } from "@tanstack/react-query";
 import Button from "../buttons/Button";
-import PlayerList from "./players/PlayerList";
 import { ReactQueryKeys } from "@/utilities/constants/ReactQuery";
-import { Lobby } from "@/utilities/types/Lobby";
-import useSocketLogic from "@/utilities/hooks/useSocket";
-import React, { useEffect, useMemo } from "react";
-import { useGame } from "@/utilities/hooks/useGame";
+import React, { useMemo } from "react";
+import { useLobby } from "@/utilities/hooks/useLobby";
 import { Player } from "@/utilities/types/Player";
 import Game from "../game/Game";
-import GameRoundHeader from "../game/GameRoundHeader";
 import LobbyTopBar from "./LobbyTopBar";
 import PlayerColorCircle from "../players/PlayerColorCircle";
 import DynamicPlayerList from "../players/DynamicPlayerList";
+import useSocketLogic from "@/utilities/hooks/useSocket";
+import { useGame } from "@/utilities/hooks/useGame";
 
 export default function LobbyAuthenticated() {
   const queryClient = useQueryClient();
-  const lobbyData = queryClient.getQueryData<Lobby>(ReactQueryKeys.LOBBY);
+  const { data: lobbyData, leave } = useLobby();
+  const { start } = useGame();
   const playerData = queryClient.getQueryData<Player>(ReactQueryKeys.PLAYER);
   const socketLogic = useSocketLogic();
-  const game = useGame();
 
   const isLobbyHost = useMemo(() => {
     if (!lobbyData || !playerData) return false;
@@ -56,13 +54,16 @@ export default function LobbyAuthenticated() {
         <div>
           <DynamicPlayerList playerArray={lobbyData?.players} currentPlayerName={playerData?.name as string} />
         </div>
-        <div className="space-y-4 w-full block xs:space-y-0 xs:flex xs:flex-row xs:justify-left xs:space-x-2 mt-6">
-          <Button onClick={() => console.log('lol')} style="secondary" size="large" color="eggplant" className="w-full xs:w-max">
+        <p className="mt-6 text-sm">
+          {isLobbyHost ? 'As the lobby host, it’s up to you to start the game' : 'You are not the host, so you need to wait for the host to start the game'}
+        </p>
+        <div className="space-y-4 w-full block flex-col flex-col-reverse xs:space-y-0 xs:flex xs:flex-row xs:justify-left xs:space-x-2 mt-2">
+          <Button onClick={() => leave()} style="secondary" size="large" color="eggplant" className="w-full xs:w-max">
             Leave Lobby
           </Button>
           {isLobbyHost && (
-            <Button onClick={() => { }} style="primary" size="large" className="w-full xs:w-max">
-              Start Lobby
+            <Button onClick={() => start()} style="primary" size="large" className="w-full xs:w-max">
+              Start Game
             </Button>
           )}
         </div>

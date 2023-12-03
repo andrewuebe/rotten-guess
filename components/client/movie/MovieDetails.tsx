@@ -1,6 +1,7 @@
 import { getOverviewExcerpt } from "@/utilities/helpers/movieHelper";
 import Button from "../buttons/Button";
 import RatingTag from "./RatingTag";
+import { } from "@radix-ui/react-icons";
 
 interface MovieDetailsProps {
   selectedMovie: any;
@@ -11,6 +12,17 @@ interface MovieDetailsProps {
 export default function MovieDetails({ selectedMovie, primaryButton, closeButton }: MovieDetailsProps) {
   return (
     <div className="pb-4">
+      <div className="absolute">
+        <button
+          type="button"
+          onClick={() => closeButton()}
+          className="appearance-none m-0 p-0 min-h-0 min-w-0"
+        >
+          <div className="flex">
+
+          </div>
+        </button>
+      </div>
       <div
         className="w-full h-52 bg-cover bg-top mb-2 rounded-t-md"
         style={{
@@ -44,14 +56,6 @@ export default function MovieDetails({ selectedMovie, primaryButton, closeButton
               Pick this movie
             </Button>
           )}
-          <Button
-            onClick={() => closeButton()}
-            className="ml-2 px-4"
-            color="secondary"
-            size="small"
-          >
-            x
-          </Button>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { Player } from "@/utilities/types/Player";
 import GameTimer from "./GameTimer";
 import { endPicking } from "@/utilities/services/gameService"
 import { useGame } from "@/utilities/hooks/useGame";
+import LobbyTopBar from "../lobby/LobbyTopBar";
 
 export default function Game() {
   const queryClient = useQueryClient();
@@ -63,18 +64,16 @@ export default function Game() {
   }
 
   return (
-    <div>
-      <div className="bg-rose-600">
-        <div className="max-w-[750px] m-auto px-4 pt-4 h-[48px]">
-          <div className="fixed">
-            <GameTimer
-              date={currentRoundData?.end_times[currentRoundData?.round_status]}
-              onTimeUp={handleTimerEnd}
-            />
-          </div>
+    <div className="bg-corn-soup-100 h-screen">
+      <LobbyTopBar
+        endTime={currentRoundData?.end_times[currentRoundData?.round_status]}
+        onTimeUp={handleTimerEnd}
+      />
+      <div className="container pt-4 sm:pt-8">
+        <div className="mt-4">
+          {roundStatusComponent}
         </div>
       </div>
-      {roundStatusComponent}
     </div>
   )
 }

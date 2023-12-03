@@ -10,6 +10,7 @@ import { useState } from "react";
 import GameLeaderboard from "./GameLeaderboard";
 import GameLeaderboardTable from "./GameLeaderboardTable";
 import { colorScoreMap } from "@/utilities/helpers/gameHelper";
+import { useGame } from "@/utilities/hooks/useGame";
 
 interface GameScoresProps {
   currentRound: Round;
@@ -23,6 +24,8 @@ export default function GameScores({ currentRound, playerScores }: GameScoresPro
   const { data: pickedMovieData } = useQuery([...ReactQueryKeys.MOVIE, pick.movie_id], () => getMovieById(pick.movie_id), {
     enabled: (roundType === RoundType.GUESS_SCORE && !!pick.movie_id)
   });
+
+  const { data } = useGame();
 
   const results = useQueries({
     queries: guesses.map(guess => ({
@@ -75,35 +78,34 @@ export default function GameScores({ currentRound, playerScores }: GameScoresPro
       )}
       {!showLeaderBoard && (
         <>
-          <div className="bg-rose-600">
-            <GameRoundHeader title="Scores" />
-            <GameScoresMovieReveal title={pickedMovieData.data.movie.title} rt_score={pickedMovieData.data.movie.rt_score} rt_url={pickedMovieData.data.movie.url} />
+          <div className="">Round {data.current_round}</div>
+          <h1 className="pb-4 text-eggplant-800 font-rokkitt font-black text-5xl sm:text-6xl leading-[50px] sm:leading-[65px] max-w-[75%] sm:max-w-[450px]">
+            Round scores
+          </h1>
+          <GameScoresMovieReveal title={pickedMovieData.data.movie.title} rt_score={pickedMovieData.data.movie.rt_score} rt_url={pickedMovieData.data.movie.url} />
+          <GameScoresTable
+            columnOne="Player"
+            columnTwo="Guess"
+            columnThree="Points"
+          />
+          {sortedRoundPoints.map((guess, index) => {
+            return (
+              <GameScoresTable
+                key={`${guess.player_id}-${index + 1}`}
+                columnOne={(guess.name === pickerPlayer.name ? `${guess.name}*` : guess.name) as string}
+                columnTwo={guess.guess as string}
+                columnThree={Math.round(guess.points as number)?.toString() ?? 'N/A'}
+                color={colorScoreMap(guess.points as number)}
+              />
+            )
+          })}
+          <div className="mt-2 text-xs">
+            * The player who picked the movie does not get points added to their total score.
           </div>
-          <div className="max-w-[750px] m-auto p-4">
-            <GameScoresTable
-              columnOne="Player"
-              columnTwo="Guess"
-              columnThree="Points"
-            />
-            {sortedRoundPoints.map((guess, index) => {
-              return (
-                <GameScoresTable
-                  key={`${guess.player_id}-${index + 1}`}
-                  columnOne={(guess.name === pickerPlayer.name ? `${guess.name}*` : guess.name) as string}
-                  columnTwo={guess.guess as string}
-                  columnThree={Math.round(guess.points as number)?.toString() ?? 'N/A'}
-                  color={colorScoreMap(guess.points as number)}
-                />
-              )
-            })}
-            <div className="mt-2 text-xs">
-              * The player who picked the movie does not get points added to their total score.
-            </div>
-            <div className="mt-4 text-right">
-              <Button color="secondary" onClick={() => setShowLeaderBoard(true)}>
-                Leaderboard
-              </Button>
-            </div>
+          <div className="mt-4 text-right">
+            <Button color="vine" size="medium" onClick={() => setShowLeaderBoard(true)}>
+              Leaderboard
+            </Button>
           </div>
         </>
       )}

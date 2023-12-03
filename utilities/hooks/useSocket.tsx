@@ -5,6 +5,8 @@ import { Socket } from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
 import { ReactQueryKeys } from '../constants/ReactQuery';
 import { Lobby } from '../types/Lobby';
+import { Player } from '../types/Player';
+import { PlayerScore } from '../types/Game';
 
 interface UseSocketReturn {
   socket: Socket | undefined;
@@ -22,6 +24,18 @@ const useSocketLogic = (): UseSocketReturn => {
         console.log('user-connected', data);
         addPlayer(data.name, data.id);
       });
+
+      socket.on('player-left-lobby', (playerName: string) => {
+        console.log('player-left-lobby', playerName);
+        queryClient.setQueryData(ReactQueryKeys.LOBBY, (oldLobbyData: any) => ({
+          ...oldLobbyData,
+          players: oldLobbyData.players.filter((player: Player) => player.name !== playerName)
+        }));
+        queryClient.setQueryData(ReactQueryKeys.GAME, (oldGameData: any) => ({
+          ...oldGameData,
+          player_scores: oldGameData.player_scores.filter((player: PlayerScore) => player.name !== playerName)
+        }));
+      })
 
       socket.on('game-started', (data) => {
         queryClient.setQueryData(ReactQueryKeys.GAME, ({

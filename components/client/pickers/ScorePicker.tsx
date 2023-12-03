@@ -16,8 +16,10 @@ export default function ScorePicker({ onScoreSelect }: ScorePickerProps) {
         placeholder="50"
         type="number"
       />
-      <div className="mt-2">
+      <div className="mt-4">
         <Button
+          color="vine"
+          size="large"
           onClick={() => onScoreSelect(score)}
         >
           Submit guess
